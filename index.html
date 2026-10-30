@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>電機島｜海大電機系政策式學程地圖</title>
+<style>
+:root{--bg:#fbf3ea;--card:#fff;--ink:#2b1d16;--sub:#7a6558;--ac:#DB6A41;--line:#e6d3c3;--pre:#2a8aa0;--suc:#c98a00;--y1:#4aa8d8;--y2:#5cb85c;--y3:#f0a030;--y4:#c75fc0;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1511;--card:#2a1f19;--ink:#f6e9df;--sub:#bfa392;--line:#4a372c;--pre:#5bc0d6;--suc:#f0b83a}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;line-height:1.55}
+.w{max-width:1000px;margin:0 auto;padding:0 14px 40px}
+header{padding:18px 0 8px}
+.k{color:var(--ac);font-weight:700;letter-spacing:.12em;font-size:.8rem}
+h1{margin:2px 0;font-size:1.7rem}h1 i{color:var(--ac)}
+header p{margin:0;color:var(--sub);font-size:.9rem}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:8px 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.bar button,.ctl button{font:inherit;font-size:.9rem;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:3px 14px;cursor:pointer}
+.bar button[aria-pressed=true]{background:var(--ac);border-color:var(--ac);color:#fff}
+.bar .n{margin-left:auto;font-size:.82rem;color:var(--sub)}
+.say{display:flex;gap:10px;background:var(--card);border:2px solid var(--ink);border-radius:16px;padding:10px 12px;margin:6px 0 12px;min-height:80px}
+.say b{color:var(--ac)}
+#city{position:relative}
+#ln{position:absolute;left:0;top:0;pointer-events:none;overflow:visible;z-index:3}
+.yr{display:flex;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:10px;margin-bottom:12px}
+.yr.on{border-color:var(--ac)}
+.who{flex:0 0 58px;text-align:center;font-weight:700;font-size:.85rem;cursor:pointer;border:0;background:none;color:var(--ink);font-family:inherit}
+.sems{flex:1;min-width:0}
+h3{margin:2px 0 6px;font-size:.82rem;color:var(--sub)}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:7px;margin-bottom:8px}
+.t{font:inherit;font-size:.88rem;color:var(--ink);background:var(--bg);border:2px dashed var(--line);border-radius:12px;padding:8px 4px;cursor:pointer;text-align:center}
+.t:hover,.t:focus-visible{border-color:var(--ac);outline:none}
+.t.p{border-style:solid;border-color:#e2a132}
+.t.pre{border-color:var(--pre);border-style:solid;box-shadow:0 0 0 2px var(--pre) inset}
+.t.suc{border-color:var(--suc);border-style:solid;box-shadow:0 0 0 2px var(--suc) inset}
+.t.sel{background:var(--ac);color:#fff;border-color:var(--ac)}
+.lg{font-size:.8rem;color:var(--sub);margin-top:6px}
+.ctl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.ctl input{flex:1;min-width:140px;accent-color:var(--ac)}
+ul.l{list-style:none;padding:0;margin:0 0 10px}
+ul.l li{padding:6px 0;border-bottom:1px solid var(--line)}ul.l b{color:var(--ac)}
+.stage{background:#bfe6ee;border-radius:20px;padding:8px;margin-bottom:12px}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .stage{background:#15485a}}
+.stage svg{width:100%;max-width:540px;height:auto;margin:0 auto;display:block}
+.char{cursor:pointer;outline:none}
+.char:hover .bob,.char:focus-visible .bob,.char.on .bob{animation:bob .6s ease-in-out infinite alternate}
+.char.on text{font-weight:700}
+@keyframes bob{to{transform:translateY(-8px)}}
+@media(prefers-reduced-motion:reduce){.bob{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="w">
+<header><div class="k">FUTURE EE.</div><h1>電機島：<i>四年學程</i>地圖</h1><p>國立臺灣海洋大學電機工程學系・一格一門課，看見課程之間的關係。</p></header>
+<div class="bar" id="bar" role="group" aria-label="檢視">
+<button data-v="i">島嶼</button><button data-v="a">全景</button><button data-v="l">清單</button><button data-v="t">時間</button>
+<button id="all" aria-pressed="false">協作線</button><span class="n" id="cnt"></span></div>
+<div class="say" aria-live="polite"><svg width="46" height="54" viewBox="-22 -30 44 52" id="av"></svg><div id="say"></div></div>
+<div id="view"></div>
+<p class="lg">虛線＝核心必修；<span style="color:#e2a132">橘色實線</span>＝專業六選三（必選）；<span style="color:var(--pre)">藍框</span>＝先修，<span style="color:var(--suc)">金框</span>＝後續。課程關聯為依年級順序推得的示意，實際先修規定以系上公告為準。資料依兩份關聯圖整理，並以較新的「六選三」版本為準。</p>
+</div>
+<script>
+const I={"計算機概論":"認識電腦如何運作，是所有資訊能力的起點。","計算機實習":"動手操作，把概念變成能跑的程式。","程式語言":"學會用程式描述問題，後續許多課都用得到。","普通物理":"力學、電磁與波動，電機的物理底子。","普通物理實驗":"用實驗驗證物理，練習量測與資料處理。","微積分":"描述變化與累積的數學語言。","工程數學":"微分方程等工具，用來分析電路與系統。","電路學":"電壓、電流與元件的基礎分析，電機的第一個核心。","交換電路與邏輯設計":"數位電路與邏輯設計，通往電腦硬體的入口。","電磁學":"電場與磁場的基本理論。","線性代數":"矩陣與向量空間，訊號、控制與演算法都靠它。","電子學":"二極體、電晶體與放大電路，會連續修好幾個學期。","電工實驗":"貫穿多個學期的實驗課，從基礎量測到系統整合。","電磁波":"電磁場的傳播，延伸到天線與無線通訊。","訊號與系統":"用數學描述訊號與系統，通訊與控制的共同語言。","機率學":"處理不確定性，通訊與訊號處理的基礎。","資料結構":"資料如何組織與存取，寫出高效率程式的關鍵。","複變函數":"複數的函數分析，用於訊號與電磁理論。","電子電路":"把電子學進一步用在實際電路設計。","自動控制":"讓系統穩定並達成目標，如機器人與自動化。","電機機械":"馬達、發電機與變壓器等能量轉換設備。","通訊工程":"資訊如何被編碼、傳送與接收。","近代物理／半導體物理":"量子與半導體基礎，理解晶片元件的來龍去脈。","六選三（必選）":"自動控制、通訊工程、電機機械、資料結構、複變函數、半導體物理，這六門要修滿三門。"};
+const G={"通訊與訊號處理":"處理與傳遞訊號，包括無線通訊、影音與資料處理。","電力與電子電路":"電能轉換、電力系統與電路設計。","控制":"自動控制與系統整合，應用於機器人與智慧製造。","固態電子":"半導體元件與積體電路，晶片的根基。","電波":"電磁波、天線與微波技術。","資訊科技":"軟硬體整合、演算法與資訊系統。"};
+const CM=["國文領域","外文領域","歷史領域","體育","勞動服務","博雅領域","憲政領域"];
+const P=new Set(["ds","cv","ac","em","cm","mp","pick"]);
+const S=[["cs:計算機概論,csl:計算機實習,ph1:普通物理,pl:程式語言,pl1:普通物理實驗,ca1:微積分","ph2:普通物理,pl2:普通物理實驗,ca2:微積分,em1:工程數學,ck1:電路學,dl:交換電路與邏輯設計"],["em2:工程數學,emg:電磁學,la:線性代數,ck2:電路學,el1:電子學,lb1:電工實驗","el2:電子學,lb2:電工實驗,ew:電磁波,ss:訊號與系統,pr:機率學,ds:資料結構,cv:複變函數"],["el3:電子學,lb3:電工實驗,mp:近代物理／半導體物理,ac:自動控制,em:電機機械,cm:通訊工程","ec:電子電路,lb4:電工實驗,pick:六選三（必選）"],["lb5:電工實驗",""]];
+const E="ca1>ca2 ph1>ph2 pl1>pl2 cs>csl csl>pl ca2>em1 ca2>ck1 ca2>la em1>em2 ck1>ck2 ck1>el1 el1>el2 el2>el3 el3>ec ck2>el2 lb1>lb2 lb2>lb3 lb3>lb4 lb4>lb5 ph2>emg em1>emg emg>ew cv>ew ck2>ss em2>ss la>ss ss>cm pr>cm ss>ac ck2>ac ck2>em emg>em el2>mp ph2>mp pl>ds dl>ds ec>pick".split(" ").map(s=>s.split(">"));
+const N={};S.forEach((y,i)=>y.forEach((s,j)=>s&&s.split(",").forEach(x=>{const[id,n]=x.split(":");N[id]={n,y:i,s:j,k:i*2+j}})));
+const YS=[["大一","#4aa8d8","大一先打好數理與程式的地基：微積分、物理、程式語言，還有第一堂電路學。"],["大二","#5cb85c","大二是電機的核心基礎年：電磁學、電子學、訊號與系統輪番登場，電工實驗也開始了。"],["大三","#f0a030","大三開始摸索方向！專業課六選三為必選，修課也能幫你找到喜歡的領域。"],["大四","#c75fc0","大四進入專業組別，挑一個有興趣的方向深入。點下面的組別，聽我介紹！"]];
+const $=s=>document.querySelector(s),say=$("#say");let tm,V="i",cy=0,sel=null,showAll=false,play;
+const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const chair=`<circle r="14" fill="#f5d2b0" stroke="#2b1d16" stroke-width="2"/><path d="M-14-4q14-16 28 0q-6-6-14-6t-14 6" fill="#9aa5ab"/><circle cx="-5" r="4.5" fill="none" stroke="#2b1d16" stroke-width="1.6"/><circle cx="5" r="4.5" fill="none" stroke="#2b1d16" stroke-width="1.6"/><path d="M-4 8q4 3 8 0" stroke="#2b1d16" stroke-width="1.8" fill="none"/><path d="M-4 15l4 6l4-6z" fill="#DB6A41"/>`;
+$("#av").innerHTML=chair;
+const stud=c=>`<svg width="44" height="54" viewBox="-22 -22 44 56"><rect x="-12" y="6" width="24" height="26" rx="9" fill="${c}" stroke="#2b1d16" stroke-width="2"/><circle r="14" fill="#f9dcc0" stroke="#2b1d16" stroke-width="2"/><path d="M-14-2q14-18 28 0q-8-6-14-6t-14 6" fill="#3b2a25"/><circle cx="-5" cy="2" r="2" fill="#2b1d16"/><circle cx="5" cy="2" r="2" fill="#2b1d16"/><path d="M-4 8q4 3 8 0" stroke="#2b1d16" stroke-width="1.6" fill="none"/></svg>`;
+function talk(t){clearInterval(tm);const h="<b>系主任：</b>";if(reduce){say.innerHTML=h+t;return}let i=0;say.innerHTML=h;tm=setInterval(()=>{i++;say.innerHTML=h+t.slice(0,i);if(i>=t.length)clearInterval(tm)},20)}
+const tile=id=>{const c=N[id];return `<button class="t${P.has(id)?" p":""}" data-id="${id}">${c.n}${P.has(id)&&id!="pick"?" ★":""}</button>`};
+const gtile=g=>`<button class="t" data-g="${g}">${g}組</button>`;
+function semHTML(k){const y=k>>1,s=k&1,v=S[y][s];return v?v.split(",").map(x=>tile(x.split(":")[0])).join(""):""}
+function city(){return S.map((_,y)=>`<div class="yr" data-y="${y}"><button class="who" data-y="${y}">${stud(YS[y][1])}<br>${YS[y][0]}</button><div class="sems"><h3>上學期</h3><div class="g">${semHTML(y*2)}</div>${y<3?`<h3>下學期</h3><div class="g">${semHTML(y*2+1)}</div>`:`<h3>專業組別</h3><div class="g">${Object.keys(G).map(gtile).join("")}</div>`}</div></div>`).join("")+`<div class="yr"><div class="who">${stud("#999")}<br>共同</div><div class="sems"><h3>共同課程</h3><div class="g">${CM.map(c=>`<button class="t" data-c="${c}">${c}</button>`).join("")}</div></div></div>`}
+function rel(id){return{pre:E.filter(e=>e[1]==id).map(e=>e[0]),suc:E.filter(e=>e[0]==id).map(e=>e[1])}}
+function draw(){const ln=$("#ln");if(!ln)return;const c=$("#city"),r0=c.getBoundingClientRect();ln.setAttribute("width",c.offsetWidth);ln.setAttribute("height",c.offsetHeight);let p="";
+const ctr=id=>{const e=c.querySelector(`[data-id=${id}]`);if(!e)return null;const r=e.getBoundingClientRect();return[r.left-r0.left+r.width/2,r.top-r0.top+r.height/2]};
+const line=(a,b,col,w,o)=>{const A=ctr(a),B=ctr(b);if(!A||!B)return"";const mx=(A[0]+B[0])/2,my=(A[1]+B[1])/2-18;return `<path d="M${A[0]} ${A[1]}Q${mx} ${my} ${B[0]} ${B[1]}" fill="none" stroke="${col}" stroke-width="${w}" opacity="${o}"/>`};
+if(showAll)E.forEach(e=>p+=line(e[0],e[1],"#DB6A41",1.5,.35));
+if(sel){const r=rel(sel);r.pre.forEach(a=>p+=line(a,sel,"#2a8aa0",3,.9));r.suc.forEach(b=>p+=line(sel,b,"#c98a00",3,.9))}
+ln.innerHTML=p}
+function mark(){document.querySelectorAll(".t").forEach(t=>t.classList.remove("sel","pre","suc"));if(!sel)return;const r=rel(sel);document.querySelectorAll(`.t[data-id=${sel}]`).forEach(t=>t.classList.add("sel"));r.pre.forEach(i=>document.querySelectorAll(`.t[data-id=${i}]`).forEach(t=>t.classList.add("pre")));r.suc.forEach(i=>document.querySelectorAll(`.t[data-id=${i}]`).forEach(t=>t.classList.add("suc")))}
+function pickC(id){sel=id;mark();draw();const c=N[id],r=rel(id),nm=i=>N[i].n+"（"+YS[N[i].y][0]+"）";let t=`「${c.n}」：${I[c.n]||""}`;if(r.pre.length)t+=` 先修建議：${r.pre.map(nm).join("、")}。`;if(r.suc.length)t+=` 之後會接：${r.suc.map(nm).join("、")}。`;talk(t)}
+function bind(){document.querySelectorAll("#view .t").forEach(b=>b.onclick=()=>{if(b.dataset.id)pickC(b.dataset.id);else{sel=null;mark();draw();talk(b.dataset.g?`${b.dataset.g}組：${G[b.dataset.g]}`:`${b.dataset.c}屬於共同課程，由學校統籌，和專業課一起修，讓視野更完整。`)}});document.querySelectorAll(".who[data-y]").forEach(b=>b.onclick=()=>{sel=null;mark();draw();document.querySelectorAll(".yr").forEach(y=>y.classList.toggle("on",y.dataset.y==b.dataset.y));talk(YS[+b.dataset.y][2])})}
+function yearSel(i){cy=i;sel=null;document.querySelectorAll(".char").forEach(e=>e.classList.toggle("on",e.dataset.i==i));talk(YS[i][2]);$("#ip").innerHTML=`<h3>${YS[i][0]}・上學期</h3><div class="g">${semHTML(i*2)}</div>`+(i<3?`<h3>${YS[i][0]}・下學期</h3><div class="g">${semHTML(i*2+1)}</div>`:`<h3>專業組別</h3><div class="g">${Object.keys(G).map(gtile).join("")}</div>`);bind();draw()}
+function isl(){const pos=[[96,112],[264,112],[128,192],[232,192]];let h=`<path d="M180 286C40 196 14 98 98 66c40-14 72 8 82 36 10-28 42-50 82-36 84 32 58 130-82 220z" fill="#2a8aa0" opacity=".3"/><path d="M180 278C40 188 14 92 98 60c40-14 72 8 82 36 10-28 42-50 82-36 84 32 58 130-82 218z" fill="#f6dfa8" stroke="#c9a85a" stroke-width="4"/>`;
+YS.forEach((y,i)=>{const[x,yy]=pos[i];h+=`<g class="char" tabindex="0" role="button" aria-label="${y[0]}學生" data-i="${i}" transform="translate(${x} ${yy})"><g class="bob"><rect x="-13" y="6" width="26" height="30" rx="10" fill="${y[1]}" stroke="#2b1d16" stroke-width="2"/><circle r="15" fill="#f9dcc0" stroke="#2b1d16" stroke-width="2"/><path d="M-15-2q15-20 30 0q-8-6-15-6t-15 6" fill="#3b2a25"/><circle cx="-5" cy="2" r="2" fill="#2b1d16"/><circle cx="5" cy="2" r="2" fill="#2b1d16"/><path d="M-4 8q4 3 8 0" stroke="#2b1d16" stroke-width="1.6" fill="none"/></g><text y="54" text-anchor="middle" font-size="13" fill="#2b1d16">${y[0]}</text></g>`});
+h+=`<g transform="translate(180 132) scale(1.25)"><rect x="-17" y="10" width="34" height="38" rx="12" fill="#35566a" stroke="#2b1d16" stroke-width="2"/>${chair}</g><text x="180" y="200" text-anchor="middle" font-size="13" font-weight="700" fill="#2b1d16">系主任</text>`;
+$("#view").innerHTML=`<div class="stage"><svg viewBox="0 0 360 300" role="img" aria-label="心形島上有四位學生與系主任">${h}</svg></div><div id="city"><svg id="ln"></svg><div id="ip"></div></div>`;
+document.querySelectorAll(".char").forEach(e=>{e.onclick=()=>yearSel(+e.dataset.i);e.onkeydown=k=>{if(k.key=="Enter"||k.key==" "){k.preventDefault();yearSel(+e.dataset.i)}}});yearSel(cy)}
+function render(){clearInterval(play);const v=$("#view");document.querySelectorAll("#bar [data-v]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v==V));
+if(V=="i")isl();
+else if(V=="a"){v.innerHTML=`<div id="city"><svg id="ln"></svg>${city()}</div>`;bind();draw()}
+else if(V=="l"){v.innerHTML=S.map((_,y)=>`<h3>${YS[y][0]}</h3><ul class="l">${[0,1].map(s=>(S[y][s]?S[y][s].split(",").map(x=>{const id=x.split(":")[0],c=N[id];return `<li><b>${YS[y][0]}${s?"下":"上"}｜${c.n}</b>${P.has(id)&&id!="pick"?" ★":""}<br>${I[c.n]}</li>`}).join(""):"")).join("")}${y==3?Object.keys(G).map(g=>`<li><b>${g}組</b><br>${G[g]}</li>`).join(""):""}</ul>`).join("");talk("清單模式：把每門課和它的重點一次列給你。")}
+else{v.innerHTML=`<div class="ctl"><button id="pl">▶ 播放</button><input type="range" id="sl" min="0" max="6" value="0" aria-label="學期"><b id="lb"></b></div><div class="yr"><div class="sems"><div class="g" id="tg"></div></div></div>`;const sl=$("#sl");const up=()=>{const k=+sl.value,y=k>>1;$("#lb").textContent=YS[y][0]+(k&1?"下學期":"上學期");$("#tg").innerHTML=semHTML(k)+(k==6?Object.keys(G).map(gtile).join(""):"");bind();talk(YS[y][2])};sl.oninput=up;up();$("#pl").onclick=()=>{clearInterval(play);sl.value=0;up();play=setInterval(()=>{if(+sl.value>=6)return clearInterval(play);sl.value=+sl.value+1;up()},3500)}}}
+document.querySelectorAll("#bar [data-v]").forEach(b=>b.onclick=()=>{V=b.dataset.v;sel=null;render()});
+$("#all").onclick=e=>{showAll=!showAll;e.target.setAttribute("aria-pressed",showAll);if(V!="a"){V="a";render()}else draw()};
+$("#cnt").textContent="35 門課・協作關係 "+E.length;
+addEventListener("resize",draw);
+render();talk("歡迎來到電機島！點任何一格課程，我會告訴你它的先修與後續；點島上的同學，聽我介紹那一年。");
+</script>
+</body>
+</html>
